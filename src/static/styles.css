@@ -142,3 +142,62 @@ footer {
   padding: 20px;
   color: #666;
 }
+
+/* New: participants section styling */
+.participants-section {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px dashed #e0e0e0;
+}
+
+.participants-section h5 {
+  margin: 0 0 8px 0;
+  font-size: 15px;
+  color: #1a237e;
+}
+
+.participants-list {
+  list-style: none; /* hide bullets */
+  margin: 0;
+  padding: 0;
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+.participants-list li {
+  padding: 6px 8px;
+  font-size: 14px;
+  color: #444;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border-radius: 4px;
+}
+
+/* Delete button shown next to each participant */
+.delete-btn {
+  background: transparent;
+  border: none;
+  color: #c62828;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 4px;
+}
+.delete-btn:hover {
+  background: rgba(198, 40, 40, 0.08);
+}
+.participant-email {
+  flex: 1 1 auto;
+  overflow-wrap: anywhere;
+}
+
+/* Subtle styling for empty state */
+.participants-list .no-participants {
+  font-style: italic;
+  color: #888;
+  list-style: none;
+  margin-left: 0;
+}
