@@ -142,3 +142,38 @@ footer {
   padding: 20px;
   color: #666;
 }
+
+/* New: participants section styling */
+.participants-section {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px dashed #e0e0e0;
+}
+
+.participants-section h5 {
+  margin: 0 0 8px 0;
+  font-size: 15px;
+  color: #1a237e;
+}
+
+.participants-list {
+  list-style: disc;
+  margin: 0 0 0 18px;
+  padding: 0;
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+.participants-list li {
+  padding: 4px 0;
+  font-size: 14px;
+  color: #444;
+}
+
+/* Subtle styling for empty state */
+.participants-list .no-participants {
+  font-style: italic;
+  color: #888;
+  list-style: none;
+  margin-left: 0;
+}
