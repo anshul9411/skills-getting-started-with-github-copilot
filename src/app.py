@@ -16,9 +16,59 @@ app = FastAPI(title="Mergington High School API",
 
 # Mount the static files directory
 current_dir = Path(__file__).parent
-app.mount("/static", StaticFiles(directory=os.path.join(Path(__file__).parent,
-          "static")), name="static")
+app.mount("/static", StaticFiles(directory=str(current_dir / "static")), name="static")
 
+# Additional activities to add at application startup
+_additional_activities = {
+    "Soccer Team": {
+        "description": "Competitive soccer team representing the school in local leagues",
+        "schedule": "Practice Mon/Wed/Fri, 4:00 PM - 6:00 PM",
+        "max_participants": 22,
+        "participants": ["liam@mergington.edu", "noah@mergington.edu"]
+    },
+    "Basketball Team": {
+        "description": "School basketball team for interschool competitions",
+        "schedule": "Practice Tue/Thu, 4:30 PM - 6:30 PM",
+        "max_participants": 15,
+        "participants": ["ava@mergington.edu"]
+    },
+    "Art Club": {
+        "description": "Explore drawing, painting, and mixed media projects",
+        "schedule": "Wednesdays, 3:30 PM - 5:00 PM",
+        "max_participants": 18,
+        "participants": ["sophia@mergington.edu"]
+    },
+    "Drama Club": {
+        "description": "Acting, play production, and stagecraft",
+        "schedule": "Thursdays, 3:30 PM - 5:30 PM",
+        "max_participants": 25,
+        "participants": ["michael@mergington.edu", "olivia@mergington.edu"]
+    },
+    "Debate Team": {
+        "description": "Competitive debating and public speaking",
+        "schedule": "Mondays, 5:00 PM - 6:30 PM",
+        "max_participants": 12,
+        "participants": ["emma@mergington.edu"]
+    },
+    "Science Club": {
+        "description": "Hands-on experiments and STEM exploration",
+        "schedule": "Fridays, 3:30 PM - 5:00 PM",
+        "max_participants": 20,
+        "participants": ["daniel@mergington.edu"]
+    }
+}
+
+
+@app.on_event("startup")
+def _populate_additional_activities():
+    # Merge additional activities into the in-memory database at startup.
+    # This ensures the module-level `activities` dict (defined below) gets these entries.
+    global activities
+    try:
+        activities.update(_additional_activities)
+    except NameError:
+        # If `activities` isn't defined yet for some reason, create it.
+        activities = dict(_additional_activities)
 # In-memory activity database
 activities = {
     "Chess Club": {
@@ -61,7 +111,9 @@ def signup_for_activity(activity_name: str, email: str):
 
     # Get the specific activity
     activity = activities[activity_name]
-
+    # Validate student is not already signed up
+    if email in activity["participants"]:
+        raise HTTPException(status_code=400, detail="Student already signed up for this activity")
     # Add student
     activity["participants"].append(email)
     return {"message": f"Signed up {email} for {activity_name}"}
